@@ -18,12 +18,12 @@ def get_today_games(today_date):
 
     response = session.post("https://www.koreabaseball.com/ws/Main.asmx/GetKboGameList", headers=headers, data=data)
     if response.status_code != 200:
-        print("❌ API 요청 실패:", response.status_code)
+        print("API 요청 실패:", response.status_code)
         return []
 
     json_data = response.json()
     if "game" not in json_data:
-        print("❌ 'game' 키 없음")
+        print("'game' 키 없음")
         return []
 
     games = []

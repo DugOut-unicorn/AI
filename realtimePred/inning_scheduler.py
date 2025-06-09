@@ -38,7 +38,7 @@ def get_current_inning(game_id: str) -> int:
     return inning_done
 
 def run_inference(inning: int, game_id: str, home_win_pred: float):
-    print(f"\n🎯 [{inning}회 종료] 추론 시작 (game_id={game_id})")
+    print(f"\n[{inning}회 종료] 추론 시작 (game_id={game_id})")
     # subprocess.run(['python', 'inference.py', '--inning', str(inning), '--game_id', game_id, '--home_win_pred', str(home_win_pred)])
     inference(inning=inning, game_id=game_id, home_win_pred=home_win_pred)
 

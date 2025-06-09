@@ -62,9 +62,9 @@ def save_live_win_prediction(game_id: str, inning: int, win_prob: float, home_ac
 
         # 저장
         df.to_sql(table_name, con=engine, if_exists='append', index=False)
-        print(f"✅ 실시간 예측 결과 저장 완료: {game_id}, {inning}회, {win_prob:.3f}")
+        print(f"실시간 예측 결과 저장 완료: {game_id}, {inning}회, {win_prob:.3f}")
     except Exception as e:
-        print(f"❌ 실시간 예측 결과 DB 저장 중 오류 발생: {e}")
+        print(f"실시간 예측 결과 DB 저장 중 오류 발생: {e}")
 
 
 # 경기 전 예측 값 (win_probabilities 테이블에서 team1 == home 일 때 받아오기) 받아오기
@@ -85,10 +85,10 @@ def get_win_probability(team1: str, team2: str) -> float:
             if result:
                 return float(result[0])
             else:
-                print(f"❌ 해당 팀 조합({team1} vs {team2})에 대한 데이터가 없습니다.")
+                print(f"해당 팀 조합({team1} vs {team2})에 대한 데이터가 없습니다.")
                 return None
     except Exception as e:
-        print(f"❌ 승률 조회 중 오류 발생: {e}")
+        print(f"승률 조회 중 오류 발생: {e}")
         return None
 
 
@@ -98,9 +98,9 @@ def delete_predictions_by_game_id(game_id: str):
         with engine.connect() as conn:
             conn.execute(text("DELETE FROM live_win_predictions WHERE game_id = :game_id"), {"game_id": game_id})
             conn.commit()
-        print(f"🗑️ 삭제 완료: game_id={game_id}")
+        print(f"삭제 완료: game_id={game_id}")
     except Exception as e:
-        print(f"❌ 삭제 실패: {e}")
+        print(f"삭제 실패: {e}")
 
 def delete_all_predictions():
     try:
@@ -108,8 +108,8 @@ def delete_all_predictions():
         with engine.connect() as conn:
             conn.execute(text("DELETE FROM live_win_predictions"))
             conn.commit()
-        print("🗑️ 전체 예측 데이터 삭제 완료")
+        print("전체 예측 데이터 삭제 완료")
     except Exception as e:
-        print(f"❌ 전체 삭제 실패: {e}")
+        print(f"전체 삭제 실패: {e}")
         
 # delete_all_predictions()

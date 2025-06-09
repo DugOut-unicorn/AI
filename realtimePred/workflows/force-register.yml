@@ -1,0 +1,19 @@
+name: Force Register Daily
+
+on:
+  schedule:
+    - cron: '0 18 * * *'  # 한국 새벽 3시 = UTC 18시
+  workflow_dispatch:  # 수동 실행도 가능
+
+jobs:
+  call-endpoint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wake up Render server
+        run: |
+          curl --silent --max-time 10 https://baseball-win-inning-pred.onrender.com/ || true
+          sleep 10  # 서버 깨울 시간 10초 대기
+
+      - name: Call /force_register endpoint
+        run: |
+          curl --fail "https://baseball-win-inning-pred.onrender.com/force_register?token=${{ secrets.REGISTER_TOKEN }}"

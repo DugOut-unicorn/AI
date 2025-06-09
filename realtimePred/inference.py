@@ -38,12 +38,6 @@ def setmodel():
     model.eval()
     return model
 
-# 스코어를 조금 더 봐야겠다
-def adjust_win_prob(P, score_diff, inning, total_innings=9, k=0.8):
-    inning_weight = inning / total_innings
-    score_factor = 1 / (1 + math.exp(-k * score_diff * inning_weight))
-    adjusted = P * score_factor + (1 - P) * (1 - score_factor)
-    return adjusted
 
 def inference(inning, game_id, home_win_pred):
     realtimedf = get_realtimelog_df(inning, game_id)
@@ -60,9 +54,8 @@ def inference(inning, game_id, home_win_pred):
     prob, pred = inference_prob(model, realtimedf, feature_cols, home_win_pred)
     print(f"현재 시점 예측 → 확률: {prob:.4f}, 예측: {'승리' if pred >=0.5 else '패배'}")
 
-    whth_prob = adjust_win_prob(prob,realtimedf['score_diff'].iloc[-1], inning)
-    print(whth_prob)
-    save_live_win_prediction(game_id=game_id, inning=inning, win_prob=whth_prob, 
+    print(prob)
+    save_live_win_prediction(game_id=game_id, inning=inning, win_prob=prob, 
                              home_accum_score=realtimedf['home_score'].iloc[-1],
                              away_accum_score=realtimedf['away_score'].iloc[-1])
     print(f"홈 최종 점수: {realtimedf['home_score'].iloc[-1]}")
@@ -76,7 +69,7 @@ def main():
     parser.add_argument('--home_win_pred', type=float, required=True, help='ex) 0.657')
     args = parser.parse_args()
 
-    print(f"▶ 추론 중... {args.inning}회차 / 경기: {args.game_id}")
+    print(f"추론 중... {args.inning}회차 / 경기: {args.game_id}")
     
     
     inference(inning=args.inning, game_id=args.game_id, home_win_pred=args.home_win_pred)
