@@ -14,8 +14,7 @@ app.config['JSON_AS_ASCII'] = False
 
 # MySQL 연결 정보 직접 명시 (여전히 환경 변수 사용을 권장하지만, GitHub Actions와는 별개)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
-'DB_URI',
-'mysql+pymysql://root:dugout2025!!@dugout-dev.cn6mm486utfi.ap-northeast-2.rds.amazonaws.com:3306/dugoutDB?charset=utf8'
+'DB_URI'
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
