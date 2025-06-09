@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: baseball-inning-predictor
+    env: docker
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: DB_URI
+        sync: false  # Render 웹 대시보드에서 따로 입력
